@@ -1,0 +1,10 @@
+requirements: 
+* roto translation object to manipulate position of camera 
+  * every rototranslation object need to have as input: 
+    in: actual position x,y,z
+    in: rotation degre value on axes x,y,z plus explicited error on x,y,z
+    in: translation degre value on axes x,y,z plus explicited error on x,y,z
+    out:  as output we have the new position 
+
+ant colony optimization algorithms to optimize errors
+csv parser to data in/out
