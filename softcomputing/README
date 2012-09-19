@@ -1,3 +1,5 @@
+maybe I need scipy,numpy
+
 requirements: 
 * roto translation object to manipulate position of camera 
   * every rototranslation object need to have as input: 
