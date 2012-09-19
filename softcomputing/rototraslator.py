@@ -1,21 +1,43 @@
+#!/usr/bin/python
 
-class rototraslator:
+# import Scientific Pyhon Library and reference it as sp 
+# import also numpy (numeric data type) library and reference it as np
+import scipy as sp
+import numpy as np
 
-    actual_position = ( -1, -1, -1 ) 
+class geometric_transformation:
+
+    actual_position = None
 
     def __init__(self, x, y, z):
         """ set initial position of the object """
-        self.actual_position = (x, y, z) 
 
-    def rotate(self, a, ea, b, eb, c, ec):
-        """ rotate the object in every axes 
+        self.actual_position = np.array([x,y,z], np.int)
 
-        rotate on axes X of a degree plus an error 'ea'       
-        rotate on axes Y of b degree plus an error 'eb'       
-        rotate on axes Z of c degree plus an error 'ec' """
+    def rotate_X_axis(self, degree):
+        """ rotate the X axis with a rotation matrix multiplication 
 
-    def traslate(self, a, ea, b, eb, c, ec):
-        """ traslate the object for every axes """
+            |1    0        0   |   | x |
+            |0  cos(a)  -sin(a)| * | y |
+            |0  sin(a)   cos(a)|   | z | 
+        
+        """ 
+
+        #  radians to degree conversion 
+
+        rotation_matrix_on_X_axis = np.matrix('1 0 0; 0 1 0; 0 0 1')
+
+        self.actual_position = 
+        
+
+
+    def rotate_Y_axis(self, degree):
+
+    def rotate_Y_axis(self, degree):
+
+    def traslate(self, x,y,z):
+
+
 
         
 
