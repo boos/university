@@ -12,9 +12,9 @@ class geometric_transformation:
     def __init__(self, x, y, z):
         """ set initial position of the object """
 
-        self.actual_position = np.array([x,y,z], np.int)
+        self.actual_position = np.array([[x],[y],[z]])
 
-    def rotate_X_axis(self, degree):
+    def rotate_X_axis(self, radians):
         """ rotate the X axis with a rotation matrix multiplication 
 
             |1    0        0   |   | x |
@@ -23,29 +23,81 @@ class geometric_transformation:
         
         """ 
 
-        #  radians to degree conversion 
+        # rotation matrix creation 
+        a,b,c = 1, 0, 0 
+        d,e,f = 0, np.cos(radians), -np.sin(radians)
+        g,h,i = 0, np.sin(radians),  np.cos(radians)
 
-        rotation_matrix_on_X_axis = np.matrix('1 0 0; 0 1 0; 0 0 1')
-
-        self.actual_position = 
+        rotation_matrix_on_X_axis = np.matrix([[a,b,c],[d,e,f],[g,h,i]])
         
+        # perform rotation 
+        self.actual_position = np.dot(rotation_matrix_on_X_axis , self.actual_position)
+
+        return self.actual_position
 
 
-    def rotate_Y_axis(self, degree):
+    def rotate_Y_axis(self, radians):
+        """ rotate the Y axis with a rotation matrix multiplication 
 
-    def rotate_Y_axis(self, degree):
-
-    def traslate(self, x,y,z):
-
-
-
+            |cos(b)     0       sin(b)|   | x |
+            |   0       1         0   | * | y |
+            |-sin(b)    0       cos(b)|   | z | 
         
+        """ 
+
+        # rotation matrix creation 
+        a,b,c = np.cos(radians),  0, np.sin(radians)
+        d,e,f = 0,1,0
+        g,h,i = -np.sin(radians), 0, np.cos(b)
+
+        rotation_matrix_on_Y_axis = np.matrix([[a,b,c],[d,e,f],[g,h,i]])
+
+        # perform rotation 
+        self.actual_position = rotation_matrix_on_Y_axis * self.actual_position 
+
+        return self.actual_position
+
+    def rotate_Z_axis(self, radians):
+        """ rotate the Y axis with a rotation matrix multiplication 
+
+            |cos(c)     -sin(c)   0|   | x |
+            |sin(c)      cos(c)   0| * | y |
+            |  0          0       1|   | z | 
+        
+        """ 
+
+        # rotation matrix creation 
+        a,b,c = np.cos(radians), -np.sin(radians), 0
+        d,e,f = np.sin(radians),  np.cos(radians), 0
+        g,h,i = 0, 0, 1
+
+        rotation_matrix_on_Z_axis = np.matrix([[a,b,c],[d,e,f],[g,h,i]])
+
+
+        # perform rotation 
+        self.actual_position = rotation_matrix_on_Z_axis * self.actual_position 
+
+        return self.actual_position
+
+
+    def traslate(self, x = 0, y = 0, z = 0):
+        """ traslate on X,Y,Z """
+
+        self.actual_position = self.actual_position + np.array([x,y,z], np.int)
+
 
 def testunit():
     
-    rt = rototraslator(10, 20, 30)
-    rt.actual_position
+    rt = geometric_transformation(0,1,0)
 
+    rt.rotate_X_axis(np.pi/2)
+    rt.rotate_X_axis(-np.pi/2)
+
+    rt.rotate_Y_axis(np.pi/2)
+    rt.rotate_Y_axis(-np.pi/2)
+
+    rt.rotate_Z_axis(np.pi/2)
+    rt.rotate_Z_axis(-np.pi/2)
 
 
 __init__ = testunit()
