@@ -1,7 +1,6 @@
 #!/usr/bin/python
 
 import csv
-
 import geometric_transformation
 
 START_POSITION_FILE = "data/start_position"
@@ -17,13 +16,14 @@ def main():
 
         for row in data:
 
+			# skip row with comments or empty 
             if len(row) == 0: continue
             if row[0][0] == '#': continue
 
+			# transform text to integers 
+            row = map(lambda x: int(x), row)
+
             point.rotate_X_axis(row[0]) # rotate of value
-
-            print "actual_position:", point.actual_position
-
             point.rotate_X_axis(row[1]) # rotate as the error value 
 
             point.rotate_Y_axis(row[2]) # rotate on Y as value 
