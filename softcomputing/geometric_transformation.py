@@ -82,8 +82,7 @@ class geometric_transformation:
 
     def traslate(self, x = 0, y = 0, z = 0):
         """ traslate on X,Y,Z """
-
-        self.actual_position = self.actual_position + np.array([x,y,z], np.int)
+        self.actual_position = self.actual_position + np.array([[x],[y],[z]])
 
 
 def testunit():
