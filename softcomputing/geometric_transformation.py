@@ -26,10 +26,10 @@ class geometric_transformation:
         # rotation matrix creation 
         a,b,c = 1, 0, 0 
         d,e,f = 0, np.cos(radians), -np.sin(radians)
-        g,h,i = 0, np.sin(radians),  np.cos(radians)
+        g,h,i = 0, np.sin(radians), +np.cos(radians)
 
-        rotation_matrix_on_X_axis = np.matrix([[a,b,c],[d,e,f],[g,h,i]])
-        
+        rotation_matrix_on_X_axis = np.array([[a,b,c],[d,e,f],[g,h,i]])
+
         # perform rotation 
         self.actual_position = np.dot(rotation_matrix_on_X_axis , self.actual_position)
 
@@ -50,10 +50,10 @@ class geometric_transformation:
         d,e,f = 0,1,0
         g,h,i = -np.sin(radians), 0, np.cos(b)
 
-        rotation_matrix_on_Y_axis = np.matrix([[a,b,c],[d,e,f],[g,h,i]])
+        rotation_matrix_on_Y_axis = np.array([[a,b,c],[d,e,f],[g,h,i]])
 
         # perform rotation 
-        self.actual_position = rotation_matrix_on_Y_axis * self.actual_position 
+        self.actual_position = np.dot(rotation_matrix_on_Y_axis , self.actual_position)
 
         return self.actual_position
 
@@ -71,11 +71,11 @@ class geometric_transformation:
         d,e,f = np.sin(radians),  np.cos(radians), 0
         g,h,i = 0, 0, 1
 
-        rotation_matrix_on_Z_axis = np.matrix([[a,b,c],[d,e,f],[g,h,i]])
+        rotation_matrix_on_Z_axis = np.array([[a,b,c],[d,e,f],[g,h,i]])
 
 
         # perform rotation 
-        self.actual_position = rotation_matrix_on_Z_axis * self.actual_position 
+        self.actual_position = np.dot(rotation_matrix_on_Z_axis , self.actual_position)
 
         return self.actual_position
 
@@ -90,14 +90,14 @@ def testunit():
     
     rt = geometric_transformation(0,1,0)
 
-    rt.rotate_X_axis(np.pi/2)
-    rt.rotate_X_axis(-np.pi/2)
+    print rt.rotate_X_axis(np.pi/2)
+    print rt.rotate_X_axis(-np.pi/2)
 
-    rt.rotate_Y_axis(np.pi/2)
-    rt.rotate_Y_axis(-np.pi/2)
+    print rt.rotate_Y_axis(np.pi/2)
+    print rt.rotate_Y_axis(-np.pi/2)
 
-    rt.rotate_Z_axis(np.pi/2)
-    rt.rotate_Z_axis(-np.pi/2)
+    print rt.rotate_Z_axis(np.pi/2)
+    print rt.rotate_Z_axis(-np.pi/2)
 
 
-__init__ = testunit()
+# __init__ = testunit()
