@@ -3,7 +3,8 @@
 # rotate on axis X of x and then ex
 # rotate on axis Y of y and then ey
 # rotate on axis Z of z and then ez
+# traslate on axis X,Y,Z and add errors on X,Y,Z
 
 
-# x, ex, y, ey, z, ez, tx, ty, tz
-10,2,20,3,30,4,5,6,7
+# x, ex, y, ey, z, ez, tx, etx, ty, ety, tz, etz
+10,2,20,3,30,4,5,1,6,0.5,7,1
