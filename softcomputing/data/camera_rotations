@@ -1,9 +1,10 @@
 # this file contains all the value that the camera need to computate to calculate the position 
+# each line represents a 6d pose
 #
-# rotate on axis X of x and then ex
-# rotate on axis Y of y and then ey
-# rotate on axis Z of z and then ez
-# traslate on axis X,Y,Z and add errors on X,Y,Z
+# rotation on axis X of x and then ex (roll)
+# rotation on axis Y of y and then ey (pitch)
+# rotation on axis Z of z and then ez (yaw)
+# translation on axis X,Y,Z and add errors on X,Y,Z
 
 
 # x, ex, y, ey, z, ez, tx, etx, ty, ety, tz, etz
