@@ -23,15 +23,23 @@ class ANT:
 	# list with all the selected computed moves
 	selected_moves = list() 
 
-	def __init__(self):
-		""" Initialize the first step of the  partial solution """
-		self.selected_moves.append(self.compute_a_move())
+
+	def __init__(self, trail, attr_weight, trail_weight):
+		""" Initialize the first step of the  partial solution 
+        
+            Set also the coefficient weight of trail with respect to attractivness """
+
+        self.attractiveness_weight = attr_weight
+        self.trail_weight = trail_weight
+
+		self.selected_moves.append(np.array[[0],[0],[0]])
 
 	def compute_a_move(self):
 		""" This function returns errror correction in roto-traslation.
 			
 			Values are in RX,RY,RZ on rotation.
-			Values are in TX,TY,TZ in traslation."""
+			Values are in TX,TY,TZ in traslation.
+            """
 
 		# chose randomly move
 		RX = self.AVAILABLE_ROTATION_MOVES[random.randrange(0,360)]
@@ -51,8 +59,21 @@ class ANT:
 
 		return self.feasible_moves
 
-	def feasible_moves_selection(self):
-		""" statistically select wich of the feasible move is the right one to select """
+	def feasible_moves_selection(self, attractivness_level, trail_level):
+		""" statistically select wich of the feasible move is the right one to select 
+            attractivness is the 'a priori' desiderability of that move
+            trail level   is the 'a posteriori' desiderability of that move
+            """
+
+        # TODO
+        # for each move:
+        # compute what happen with rotation and traslation and see how far away is the real point (attractivness)
+        # compute trail level on this particular move 
+        # store the summation of all of this and each value calculated 
+        # compute the probability 
+
+        # return then the most probable
+
         # TODO 
 		return self.feasible_moves[1]
 
