@@ -11,6 +11,7 @@ def main():
 
     point = geometric_transformation.geometric_transformation(3,5,7)
 
+    # for every camera roto-traslate the object 
     with open(CAMERAS_DATA_FILE, 'rb') as csvfile:
         data = csv.reader(csvfile, skipinitialspace=True)
 
