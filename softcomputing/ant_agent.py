@@ -3,10 +3,6 @@ import random
 
 # TODO
 #
-# NEED_TO_HAVE:
-# 	- ALL available MOVES pre computed
-#
-
 # NEET_TO_DO:
 # 	- SELECT a subset of all available moves 
 #	- COMPUTE which one are more proficient to be selected
@@ -57,6 +53,7 @@ class ANT:
 
 	def feasible_moves_selection(self):
 		""" statistically select wich of the feasible move is the right one to select """
+        # TODO 
 		return self.feasible_moves[1]
 
 	def move(self):
