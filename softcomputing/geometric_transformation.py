@@ -84,6 +84,16 @@ class geometric_transformation:
         """ traslate on X,Y,Z """
         self.actual_position = self.actual_position + np.array([[x],[y],[z]])
 
+	def rototraslate_on_all_axis(self, xradians, yradians, zradians, txradians, tyradians, tzradians):
+		""" rototraslate with one call method on all axis. """
+
+		self.rotate_X_axis(xradians)
+		self.rotate_Y_axis(yradians)
+		self.rotate_Z_axis(zradians)
+		self.traslate(txradians, tyradians, tzradians)
+
+		return self.actual_position
+
 
 def testunit():
     
