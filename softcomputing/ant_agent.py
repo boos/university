@@ -1,6 +1,8 @@
 import numpy as np
 import random
 
+import geometric_trasformation
+
 # TODO
 #
 # NEET_TO_DO:
@@ -24,15 +26,31 @@ class ANT:
 	selected_moves = list() 
 
 
-	def __init__(self, trail, attr_weight, trail_weight):
+	def __init__(self, real_position, trail, attr_weight, trail_weight):
 		""" Initialize the first step of the  partial solution 
         
             Set also the coefficient weight of trail with respect to attractivness """
 
+		# store locally where the real position is 
+		self.real_position = real_position
+
+		# store locally attr_weight and trail_weight 
         self.attractiveness_weight = attr_weight
         self.trail_weight = trail_weight
 
+		# all ANT will start to explore solution from the origin
 		self.selected_moves.append(np.array[[0],[0],[0]])
+
+	def compute_fitness(self, evaluated_position):
+		""" compute the distance beetween evaluated_position and actual_position"""
+
+		X = np.absolute(evaluated_position[0] - self.actual_position[0])
+		Y = np.absolute(evaluated_position[0] - self.actual_position[0])
+		Z = np.absolute(evaluated_position[0] - self.actual_position[0])
+
+		return X + Y + Z
+
+
 
 	def compute_a_move(self):
 		""" This function returns errror correction in roto-traslation.
@@ -65,9 +83,29 @@ class ANT:
             trail level   is the 'a posteriori' desiderability of that move
             """
 
-        # TODO
+		# memorize all evaluated position with respective fitness 
+		evaluated_positions = list()
+
         # for each move:
-        # compute what happen with rotation and traslation and see how far away is the real point (attractivness)
+        # compute what happen with rotation and traslation in respect to fitness
+		for move in self.feasible_moves:
+
+			# set from where the object is located 
+			gt = geometric_trasformation.geometric_trasformation(self.actual_position[0], self.actual_position[1], self.actual_position[2])
+
+			# compute what the actual choice do to the object position 
+			evaluated_position = gt.rototraslate_on_all_axis(move[0], move[1], move[2], move[3], move[4], move[5])
+
+			# compute how far away the object is (fitness)
+			evaluated_fitness = self.compute_fitness(evaluated_position)
+			
+
+			# add to evaluted position every choice with it's respective fitness
+			evaluated_positions((evaluated_position, evaluated_fitness))
+
+			#
+
+
         # compute trail level on this particular move 
         # store the summation of all of this and each value calculated 
         # compute the probability 
