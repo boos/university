@@ -58,7 +58,6 @@ class ANT:
 			Values are in RX,RY,RZ on rotation.
 			Values are in TX,TY,TZ in traslation.
             """
-
 		# chose randomly move
 		RX = self.AVAILABLE_ROTATION_MOVES[random.randrange(0,360)]
 		RY = self.AVAILABLE_ROTATION_MOVES[random.randrange(0,360)]
@@ -77,17 +76,16 @@ class ANT:
 
 		return self.feasible_moves
 
-	def feasible_moves_selection(self, attractivness_level, trail_level):
+	def feasible_moves_selection(self, attractivness_level, trails):
 		""" statistically select wich of the feasible move is the right one to select 
             attractivness is the 'a priori' desiderability of that move
             trail level   is the 'a posteriori' desiderability of that move
             """
 
-		# memorize all evaluated position with respective fitness 
+		# memorize all evaluated position with respective fitness and trail level
 		evaluated_positions = list()
 
         # for each move:
-        # compute what happen with rotation and traslation in respect to fitness
 		for move in self.feasible_moves:
 
 			# set from where the object is located 
@@ -99,15 +97,17 @@ class ANT:
 			# compute how far away the object is (fitness)
 			evaluated_fitness = self.compute_fitness(evaluated_position)
 			
+			# extract trail level of this particular move 
+			trail_level = trails[evaluated_position[0]][evaluated_position[1]][evaluated_position[2]]
 
-			# add to evaluted position every choice with it's respective fitness
-			evaluated_positions((evaluated_position, evaluated_fitness))
+			# add to a list every possible choice with it's respective fitness and trail_level
+			evaluated_positions((evaluated_position, evaluated_fitness, trail_level))
 
-			#
+		# calculate and store the summation of all this 
 
 
-        # compute trail level on this particular move 
-        # store the summation of all of this and each value calculated 
+
+        	# store the summation of all of this and each value calculated 
         # compute the probability 
 
         # return then the most probable
