@@ -3,13 +3,6 @@ import random
 
 import geometric_trasformation
 
-# TODO
-#
-# NEET_TO_DO:
-# 	- SELECT a subset of all available moves 
-#	- COMPUTE which one are more proficient to be selected
-#	- 
-
 class ANT:
 	""" ANT class. """
 
@@ -52,7 +45,6 @@ class ANT:
 		Z = np.absolute(evaluated_position[0] - self.actual_position[0])
 
 		return X + Y + Z
-
 
 
 	def compute_a_move(self):
@@ -146,7 +138,7 @@ class ANT:
 		# chose the best move in probability 
 		selected_move = self.feasible_moves_selection()
 
-		# update the trails, TODO: trails class 
+		# update the trails
 		self.trails.update(selected_move)
 
 		# Append the move to the moves computed to create a complete solution
