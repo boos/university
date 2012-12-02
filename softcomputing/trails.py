@@ -1,15 +1,18 @@
+import thread
 
 class trails:
 
 	# initialize a 3D matrix with all the feasible moves 
-	def __init__():
+	def __init__(s):
 
 		s.trails = dict()
+		s.lock = thread.allocate_lock()
 
-	def update(s, x, y, z)
+	def update(s, x, y, z):
 		""" update trails used by ant """
 
-		# TODO that will be a critical section 
+		# start of critical section 
+		s.lock.acquire()
 
 		if not s.trails.has_key(x):
 			s.trails[x] = dict()
@@ -22,20 +25,27 @@ class trails:
 
 		s.trails[x][y][z] = s.trails[x][y][z] + 1
 
+		s.lock.release()
 		# end of critical section
 
 
-	def value(s, x, y, z)
+	def value(s, x, y, z):
 		""" return trails value of a path """
 
-		# TODO critical section
-		if s.trails.has_key(x) and s.trails[x].has_ke(y) and s.trails[x][y].has_key(z):
-			return s.trails[x][y][z]
-		# end critical section 
+		value = 0 
 
-		return 0
+		s.lock.acquire()
+
+		# start of critical section 
+		if s.trails.has_key(x) and s.trails[x].has_ke(y) and s.trails[x][y].has_key(z):
+			value = s.trails[x][y][z]
+
+		s.lock.release()
+		# end of critical secion 
+
+		return value
 
 	def evaporate(s):
 		# TODO 
+		# did I need this functionality ?
 
-	
