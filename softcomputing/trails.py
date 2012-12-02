@@ -33,10 +33,14 @@ class trails:
 		# end of critical section
 
 
-	def value(s, x, y, z):
+	def value(s, selected_move)
 		""" return trails value of a path """
 
 		value = 0 
+
+		x = selected_move[0]
+		y = selected_move[1]
+		z = selected_move[2]
 
 		s.lock.acquire()
 

@@ -97,8 +97,7 @@ class ANT:
 			a_priory_desiderability = self.compute_fitness(evaluated_position)
 			
 			# compute trail level on this particular move ( a posteriori move ) 
-			# TODO: function trails that return value of the trails level 
-			a_posteriori_desiderability = self.trails(evaluated_position)
+			a_posteriori_desiderability = self.trails.value(evaluated_position)
 
 			# add to evaluted position every choice with it's respective fitness
 			evaluated_positions.append((evaluated_position, a_priory_desiderability, a_posteriori_desiderability))
