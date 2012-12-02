@@ -91,7 +91,6 @@ class ANT:
 		most_feasible = (0,0,0,0) 
 		numerator = denominator = 0 
 
-
         # for each move:
         # compute what happen with rotation and traslation in respect to fitness
 		for move in self.feasible_moves:
@@ -134,6 +133,7 @@ class ANT:
 			if most_feasible[4] < position_probability:
 				most_feasible = position + (position_probability)
 
+		# return the most feasible move 
 		return most_feasible
 
 	def move(self):
