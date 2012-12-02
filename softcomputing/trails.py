@@ -8,8 +8,12 @@ class trails:
 		s.trails = dict()
 		s.lock = thread.allocate_lock()
 
-	def update(s, x, y, z):
+	def update(s, selected_move):
 		""" update trails used by ant """
+
+		x = selected_move[0]
+		y = selected_move[1]
+		z = selected_move[2]
 
 		# start of critical section 
 		s.lock.acquire()
