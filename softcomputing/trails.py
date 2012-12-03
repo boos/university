@@ -10,6 +10,7 @@ class trails:
 
 	def update(s, selected_move):
 		""" update trails used by ant """
+		# TODO: fix trails update using the slides
 
 		x = selected_move[0]
 		y = selected_move[1]
