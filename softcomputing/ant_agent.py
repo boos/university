@@ -53,7 +53,6 @@ class ANT:
 			Values are in RX,RY,RZ on rotation.
 			Values are in TX,TY,TZ in traslation.
             """
-
 		# chose randomly move
 		RX = self.AVAILABLE_ROTATION_MOVES[random.randrange(0,360)]
 		RY = self.AVAILABLE_ROTATION_MOVES[random.randrange(0,360)]
@@ -78,13 +77,12 @@ class ANT:
             trail level   is the 'a posteriori' desiderability of that move
             """
 
-		# memorize all evaluated position with respective fitness 
+		# memorize all evaluated position with respective fitness and trail level
 		evaluated_positions = list()
 		most_feasible = (0,0,0,0) 
 		numerator = denominator = 0 
 
         # for each move:
-        # compute what happen with rotation and traslation in respect to fitness
 		for move in self.feasible_moves:
 
 			# set from where the object is located 
