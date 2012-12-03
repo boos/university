@@ -3,13 +3,6 @@ import random
 
 import geometric_trasformation
 
-# TODO
-#
-# NEET_TO_DO:
-# 	- SELECT a subset of all available moves 
-#	- COMPUTE which one are more proficient to be selected
-#	- 
-
 class ANT:
 	""" ANT class. """
 
@@ -26,7 +19,7 @@ class ANT:
 	selected_moves = list() 
 
 
-	def __init__(self, real_position, trail, attr_weight, trail_weight):
+	def __init__(self, real_position, trails, attr_weight, trails_weight):
 		""" Initialize the first step of the  partial solution 
         
             Set also the coefficient weight of trail with respect to attractivness """
@@ -36,10 +29,13 @@ class ANT:
 
 		# store locally attr_weight and trail_weight 
         self.attractiveness_weight = attr_weight
-        self.trail_weight = trail_weight
+        self.trails_weight = trails_weight
 
 		# all ANT will start to explore solution from the origin
 		self.selected_moves.append(np.array[[0],[0],[0]])
+
+		# store locally the reference to the trails 
+		self.trails = trails
 
 	def compute_fitness(self, evaluated_position):
 		""" compute the distance beetween evaluated_position and actual_position"""
@@ -76,7 +72,7 @@ class ANT:
 
 		return self.feasible_moves
 
-	def feasible_moves_selection(self, attractivness_level, trails):
+	def feasible_moves_selection(self, attractiveness_weight = self.attractiveness_weight, trails_weight = self.trails_weight):
 		""" statistically select wich of the feasible move is the right one to select 
             attractivness is the 'a priori' desiderability of that move
             trail level   is the 'a posteriori' desiderability of that move
@@ -84,6 +80,8 @@ class ANT:
 
 		# memorize all evaluated position with respective fitness and trail level
 		evaluated_positions = list()
+		most_feasible = (0,0,0,0) 
+		numerator = denominator = 0 
 
         # for each move:
 		for move in self.feasible_moves:
@@ -94,31 +92,55 @@ class ANT:
 			# compute what the actual choice do to the object position 
 			evaluated_position = gt.rototraslate_on_all_axis(move[0], move[1], move[2], move[3], move[4], move[5])
 
-			# compute how far away the object is (fitness)
-			evaluated_fitness = self.compute_fitness(evaluated_position)
+			# compute the attractivness of that move (a priory move ) 
+			a_priory_desiderability = self.compute_fitness(evaluated_position)
 			
-			# extract trail level of this particular move 
-			trail_level = trails[evaluated_position[0]][evaluated_position[1]][evaluated_position[2]]
+			# compute trail level on this particular move ( a posteriori move ) 
+			a_posteriori_desiderability = self.trails(evaluated_position)
 
-			# add to a list every possible choice with it's respective fitness and trail_level
-			evaluated_positions((evaluated_position, evaluated_fitness, trail_level))
+			# add to evaluted position every choice with it's respective fitness
+			evaluated_positions.append((evaluated_position, a_priory_desiderability, a_posteriori_desiderability))
 
-		# calculate and store the summation of all this 
+		# Compute probability of a move
 
+		# first compute denominator 
+		for position in evaluated_position:
 
+			# retr previous stored data 
+			a_priory_desiderability = position[1]
+			a_posteriori_desiderability = position[2]
 
-        	# store the summation of all of this and each value calculated 
-        # compute the probability 
+			denominator += (1 - attractiveness_weight) * a_priory_desiderability + trails_weight * a_posteriori_desiderability
 
-        # return then the most probable
+        # then compute the probability 
+		for position in evaluated_position:
+			numerator = (1 - attractiveness_weight) * a_priory_desiderability + trails_weight * a_posteriori_desiderability
 
-        # TODO 
-		return self.feasible_moves[1]
+        	# compute the probability of that move 
+			position_probability = numerator / denominator
+
+			# chose the most feasible move
+			if most_feasible[4] < position_probability:
+				most_feasible = position + (position_probability)
+
+		# return the most feasible move 
+		return most_feasible
 
 	def move(self):
-		""" compute a set of feasible moves, chose one of that and add it in the current solution """
+		""" compute a set of feasible move, chose one of that, update the trails values 
+			and finnaly add the move the the current solution 
+		"""
+		# create a set of feasible moves with a random approach
 		self.feasible_moves_creation()
-		self.selected_moves.append(self.feasible_moves_selection())
+
+		# chose the best move in probability 
+		selected_move = self.feasible_moves_selection()
+
+		# update the trails, TODO: trails class 
+		self.trails.update(selected_move)
+
+		# Append the move to the moves computed to create a complete solution
+		self.selected_moves.append(selected_move)
 
 def testunit():
 	atomic_ant = ANT()
