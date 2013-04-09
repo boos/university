@@ -1,8 +1,9 @@
 #!/usr/bin/python
 
 # import Scientific Pyhon Library and reference it as sp 
-# import also numpy (numeric data type) library and reference it as np
 import scipy as sp
+
+# import also numpy (numeric data type) library and reference it as np
 import numpy as np
 
 class geometric_transformation:
@@ -34,7 +35,6 @@ class geometric_transformation:
         self.actual_position = np.dot(rotation_matrix_on_X_axis , self.actual_position)
 
         return self.actual_position
-
 
     def rotate_Y_axis(self, radians):
         """ rotate the Y axis with a rotation matrix multiplication 
@@ -81,11 +81,16 @@ class geometric_transformation:
 
 
     def traslate(self, x = 0, y = 0, z = 0):
-        """ traslate on X,Y,Z """
+        """ traslate on X,Y,Z axis of value x,y,z """
         self.actual_position = self.actual_position + np.array([[x],[y],[z]])
 
 	def rototraslate_on_all_axis(self, xradians, yradians, zradians, txradians, tyradians, tzradians):
-		""" rototraslate with one call method on all axis. """
+		""" rototraslate with one method call on all axis. 
+
+            x/y/zradians  fix of how much the rotation need to be applicated
+            x/y/ztradians fix of how much the translation need to be applicated
+            
+        """
 
 		self.rotate_X_axis(xradians)
 		self.rotate_Y_axis(yradians)
