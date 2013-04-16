@@ -1,16 +1,5 @@
-maybe I need scipy,numpy
+Python required libraries: 
 
-requirements: 
+* mathematics libraries: scipy, numpy (www.scipy.org)
+* csv parser ( http://docs.python.org/2/library/csv.html ) 
 
-* roto translation object to manipulate position of object as see as the camera 
-  * every rototranslation object need to have as input: 
-    in: actual position x,y,z
-    in: rotation degre value on axes x,y,z 
-    in: translation degre value on axes x,y,z 
-    out:  as output we have the new position 
-
-* module to read from CSV and calculate the positions 
-
-
-ant colony optimization algorithms to optimize errors
-csv parser to data in/out
