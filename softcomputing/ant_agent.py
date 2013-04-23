@@ -6,6 +6,8 @@ import geometric_trasformation
 class ANT:
 	""" ANT class. """
 
+    STARTING_POSITION = np.array[[0],[0],[0]])
+
 	# available rotation moves from 0 to 360 
 	# available translation moves from -10.0 to +10.0 with 0.1 steps
 	AVAILABLE_ROTATION_MOVES = np.arange(0,360)
@@ -24,18 +26,21 @@ class ANT:
         
             Set also the coefficient weight of trail with respect to attractivness """
 
-		# store locally where the real position is 
+		# All ANT will start to explore solution from the origin
+		self.selected_moves.append(self.STARTING_POSITION)
+
+		# Store locally whate is the real position of the object in the space .
 		self.real_position = real_position
+
+		# store locally the reference to the trails 
+		self.trails = trails
+
 
 		# store locally attr_weight and trail_weight 
         self.attractiveness_weight = attr_weight
         self.trails_weight = trails_weight
 
-		# all ANT will start to explore solution from the origin
-		self.selected_moves.append(np.array[[0],[0],[0]])
 
-		# store locally the reference to the trails 
-		self.trails = trails
 
 	def compute_fitness(self, evaluated_position):
 		""" compute the distance beetween evaluated_position and actual_position"""
