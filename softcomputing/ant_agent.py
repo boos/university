@@ -71,6 +71,7 @@ class ANT:
 
 	def feasible_moves_creation(self):
 		""" compute a set of feasible moves """
+        # TODO tabu what mean in slide 6 of aco ? 
 		for available_moves in range(1, self.FEASIBLE_MOVES_SIZE):
 			self.feasible_moves.append(self.compute_a_move())
 
@@ -99,40 +100,42 @@ class ANT:
 			# compute the attractivness of that move (a priory move ) 
 			a_priory_desiderability = self.compute_fitness(evaluated_position)
 			
-			# compute trail level on this particular move ( a posteriori move ) 
+			# compute trail level on this particular move ( a posteriori move ) using hints from others ANT's
 			a_posteriori_desiderability = self.trails.value(evaluated_position)
 
 			# add to evaluted position every choice with it's respective fitness
 			evaluated_positions.append((evaluated_position, a_priory_desiderability, a_posteriori_desiderability))
 
-		# Compute probability of a move
+		# Compute now in probability how good are the choices 
 
-		# first compute denominator 
+        # First we need the denominator value 
 		for position in evaluated_position:
 
-			# retr previous stored data 
+			# for every evaluated position get previous calculated values 
 			a_priory_desiderability = position[1]
 			a_posteriori_desiderability = position[2]
 
+            # compute denominator 
 			denominator += (1 - attractiveness_weight) * a_priory_desiderability + trails_weight * a_posteriori_desiderability
 
-        # then compute the probability 
+        # Then we need to compute numerator and get data in probability 
 		for position in evaluated_position:
 			numerator = (1 - attractiveness_weight) * a_priory_desiderability + trails_weight * a_posteriori_desiderability
 
         	# compute the probability of that move 
 			position_probability = numerator / denominator
 
-			# chose the most feasible move
+			# As choice are created, memorize the best one ! 
 			if most_feasible[4] < position_probability:
 				most_feasible = position + (position_probability)
 
-		# return the most feasible move 
+		# return the best feasible move 
 		return most_feasible
 
 	def move(self):
-		""" compute a set of feasible move, chose one of that, update the trails values 
-			and finnaly add the move the the current solution 
+		""" compute a set of feasible move, chose one of that and finnaly add the move the the current solution 
+
+            In ACO slides that is a creation of a state
 		"""
 		# create a set of feasible moves with a random approach
 		self.feasible_moves_creation()
@@ -140,8 +143,6 @@ class ANT:
 		# chose the best move in probability 
 		selected_move = self.feasible_moves_selection()
 
-		# update the trails
-		self.trails.update(selected_move)
 
 		# Append the move to the moves computed to create a complete solution
 		self.selected_moves.append(selected_move)
