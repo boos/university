@@ -5,7 +5,7 @@ import geometric_transformation
 
 START_POSITION_FILE = "data/start_position"
 CAMERAS_DATA_FILE   = "data/camera_rotations"
-
+REAL_POSITION_FILE  = "data/real_position"
 
 def main():
 
