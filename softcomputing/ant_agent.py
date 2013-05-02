@@ -122,6 +122,9 @@ class ANT:
 		for position in evaluated_position:
 			numerator = (1 - attractiveness_weight) * a_priory_desiderability + trails_weight * a_posteriori_desiderability
 
+            # NOTE: I've skiped tabu list exclusion to evaluate the probability of a move using it in move creation 
+            # using a short term tabu list task 
+
         	# compute the probability of that move 
 			position_probability = numerator / denominator
 
