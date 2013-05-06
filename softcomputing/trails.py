@@ -66,22 +66,22 @@ class trails:
     		y = selected_move[1]
     		z = selected_move[2]
 
-		# start of critical section 
-		s.lock.acquire()
+		    # start of critical section 
+    		s.lock.acquire()
 
-		if not s.trails.has_key(x):
-			s.trails[x] = dict()
+    		if not s.trails.has_key(x):
+    			s.trails[x] = dict()
+    
+    		if not s.trails[x].has_key(y):
+	    		s.trails[x][y] = dict()
 
-		if not s.trails[x].has_key(y):
-			s.trails[x][y] = dict()
-
-		if not s.trails[x][y].has_key(z):
-			s.trails[x][y][z] = 0
+    		if not s.trails[x][y].has_key(z):
+    			s.trails[x][y][z] = 0
 
         
-		s.trails[x][y][z] = s.pherormone_constant / len (selected_ant_moves)
+    		s.trails[x][y][z] = s.pherormone_constant / len (selected_ant_moves)
 
-		s.lock.release()
+	    	s.lock.release()
 		# end of critical section
 
 
