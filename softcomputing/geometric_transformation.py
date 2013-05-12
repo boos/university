@@ -84,20 +84,20 @@ class geometric_transformation:
         """ traslate on X,Y,Z axis of value x,y,z """
         self.actual_position = self.actual_position + np.array([[x],[y],[z]])
 
-	def rototraslate_on_all_axis(self, xradians, yradians, zradians, txradians, tyradians, tzradians):
-		""" rototraslate with one method call on all axis. 
+    def rototraslate_on_all_axis(self, xradians, yradians, zradians, txradians, tyradians, tzradians):
+        """ rototraslate with one method call on all axis. 
 
             x/y/zradians  fix of how much the rotation need to be applicated
             x/y/ztradians fix of how much the translation need to be applicated
             
         """
 
-		self.rotate_X_axis(xradians)
-		self.rotate_Y_axis(yradians)
-		self.rotate_Z_axis(zradians)
-		self.traslate(txradians, tyradians, tzradians)
+        self.rotate_X_axis(xradians)
+        self.rotate_Y_axis(yradians)
+        self.rotate_Z_axis(zradians)
+        self.traslate(txradians, tyradians, tzradians)
 
-		return self.actual_position
+        return self.actual_position
 
 
 def testunit():
