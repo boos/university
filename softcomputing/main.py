@@ -5,9 +5,18 @@ import geometric_transformation
 
 START_POSITION_FILE = "data/start_position"
 CAMERAS_DATA_FILE   = "data/camera_rotations"
-REAL_POSITION_FILE  = "data/real_position"
+REAL_POSITION_FILE  = "data/real_end_position"
 
 def main():
+
+    with open(REAL_POSITION_FILE, 'rb') as rpositionfile:
+        data = csv.reader(rpositionfile, skipinitialspace=True)
+        for row in data: 
+            real_position = row
+
+        rpositionfile.close()
+
+    print real_position
 
     point = geometric_transformation.geometric_transformation(3,5,7)
 
@@ -18,11 +27,11 @@ def main():
 
         for row in data:
 
-			# skip row with comments or empty 
+            # skip row with comments or empty 
             if len(row) == 0: continue
             if row[0][0] == '#': continue
 
-			# transform text to integers 
+            # transform text to integers 
             row = map(lambda x: float(x), row)
 
             point.rotate_X_axis(row[0]) # rotate of value

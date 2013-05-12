@@ -143,17 +143,18 @@ class ANT:
 		# create a set of feasible moves with a random approach
 		self.feasible_moves_creation()
 
-		# chose the best move in probability 
+		# chose the best move in probability from set of moves created in feasible_moves_selection()
 		selected_move = self.feasible_moves_selection()
-
 
 		# Append the move to the moves computed to create a complete solution
 		self.selected_moves.append(selected_move)
 
 def testunit():
 	atomic_ant = ANT()
+	# feasible_moves_creation and feasible_moves_selection() do a complete move()
 	atomic_ant.feasible_moves_creation()
 	atomic_ant.feasible_moves_selection()
+
 	atomic_ant.move()
 	atomic_ant.move()
 	atomic_ant.move()
