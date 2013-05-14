@@ -1,12 +1,15 @@
+import threading, csv
+
 import numpy as np
 import random
 
-import geometric_trasformation
+import geometric_transformation
 
-class ANT:
+# SubClass of Thread Class 
+class ANT(threading.Thread):
 	""" ANT class. """
 
-    STARTING_POSITION = np.array[[0],[0],[0]])
+	STARTING_POSITION = np.array([[0],[0],[0]])
 
 	# available rotation moves from 0 to 360 
 	# available translation moves from -10.0 to +10.0 with 0.1 steps
@@ -20,11 +23,13 @@ class ANT:
 	# list with all the selected computed moves
 	selected_moves = list() 
 
-
-	def __init__(self, real_position, trails, attr_weight, trails_weight):
+	def __init__(self, camerafilepath, real_position, trails, attr_weight, trails_weight):
 		""" Initialize the first step of the  partial solution 
         
             Set also the coefficient weight of trail with respect to attractivness """
+
+		# store local CSV file path 
+		self.camerafilepath = camerafilepath
 
 		# All ANT will start to explore solution from the origin
 		self.selected_moves.append(self.STARTING_POSITION)
@@ -35,11 +40,9 @@ class ANT:
 		# store locally the reference to the trails 
 		self.trails = trails
 
-
 		# store locally attr_weight and trail_weight 
-        self.attractiveness_weight = attr_weight
-        self.trails_weight = trails_weight
-
+		self.attractiveness_weight = attr_weight
+		self.trails_weight = trails_weight
 
 
 	def compute_fitness(self, evaluated_position):
@@ -77,11 +80,18 @@ class ANT:
 
 		return self.feasible_moves
 
-	def feasible_moves_selection(self, attractiveness_weight = self.attractiveness_weight, trails_weight = self.trails_weight):
+	def feasible_moves_selection(self, attractiveness_weight = None, trails_weight = None):
 		""" statistically select wich of the feasible move is the right one to select 
             attractivness is the 'a priori' desiderability of that move
             trail level   is the 'a posteriori' desiderability of that move
             """
+
+		# set default value if not otherwise fixed
+		if attractiveness_weight == None:
+			attractiveness_weight = self.attractiveness_weight
+
+		if trails_weight == None:
+			trails_weight = self.trails_weight
 
 		# memorize all evaluated position with respective fitness and trail level
 		evaluated_positions = list()
@@ -92,7 +102,7 @@ class ANT:
 		for move in self.feasible_moves:
 
 			# set from where the object is located 
-			gt = geometric_trasformation.geometric_trasformation(self.actual_position[0], self.actual_position[1], self.actual_position[2])
+			gt = geometric_transformation.geometric_transformation(self.actual_position[0], self.actual_position[1], self.actual_position[2])
 
 			# compute what the actual choice do to the object position 
 			evaluated_position = gt.rototraslate_on_all_axis(move[0], move[1], move[2], move[3], move[4], move[5])
@@ -149,13 +159,41 @@ class ANT:
 		# Append the move to the moves computed to create a complete solution
 		self.selected_moves.append(selected_move)
 
+		return selected_move
+
+	# threading method called when ANT thread is started. 
+	def run(self):
+
+		# open CSV file 
+		with open(camerafilepath, 'r') as cameracsv:
+			
+			for line in csv.reader(cameracsv, skipinitialspace=True):
+				
+				# skip row with comments or empty
+				if len(row) == 0: continue
+				if row[0][0] == '#': continu
+
+				# transform text to integers
+				row = map(lambda x: float(x), row)
+
+				move_correction = self.move()
+
+
+		# until the end of csv file
+			# read from csv file 
+			# let's the ant create a move
+			# correct the csv file with ANt move 
+
+		# update trails 
+		
+
 def testunit():
-	atomic_ant = ANT()
+	atomic_ant = ANT("data/camera_rotations", [0,0,0], None, 1, 2)
 	# feasible_moves_creation and feasible_moves_selection() do a complete move()
 	atomic_ant.feasible_moves_creation()
 	atomic_ant.feasible_moves_selection()
 
-	atomic_ant.move()
+	print atomic_ant.move()
 	atomic_ant.move()
 	atomic_ant.move()
 	atomic_ant.move()
