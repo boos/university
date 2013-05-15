@@ -1,4 +1,6 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
+# vim: set fileencoding=utf-8 :
 
 # import Scientific Pyhon Library and reference it as sp 
 import scipy as sp

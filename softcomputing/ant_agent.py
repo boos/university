@@ -1,9 +1,13 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+# vim: set fileencoding=utf-8 :
 import threading, csv
 
 import numpy as np
 import random
 
 import geometric_transformation
+import trails
 
 # SubClass of Thread Class 
 class ANT(threading.Thread):
@@ -33,6 +37,7 @@ class ANT(threading.Thread):
 
 		# All ANT will start to explore solution from the origin
 		self.selected_moves.append(self.STARTING_POSITION)
+		self.actual_position = (0,0,0)
 
 		# Store locally whate is the real position of the object in the space .
 		self.real_position = real_position
@@ -74,7 +79,6 @@ class ANT(threading.Thread):
 
 	def feasible_moves_creation(self):
 		""" compute a set of feasible moves """
-        # TODO tabu what mean in slide 6 of aco ? 
 		for available_moves in range(1, self.FEASIBLE_MOVES_SIZE):
 			self.feasible_moves.append(self.compute_a_move())
 
@@ -154,24 +158,23 @@ class ANT(threading.Thread):
 		self.feasible_moves_creation()
 
 		# chose the best move in probability from set of moves created in feasible_moves_selection()
-		selected_move = self.feasible_moves_selection()
+		self.actual_position = self.feasible_moves_selection()
 
 		# Append the move to the moves computed to create a complete solution
-		self.selected_moves.append(selected_move)
+		self.selected_moves.append(self.actual_position)
 
-		return selected_move
+		return self.actual_position
 
     # show stats about current value of the camera error and distance from optimal selection 
-    def stats(self, camera, camera_correction):
-        print "STATS WILL BE HERE"
+	def stats(self, camera, camera_correction):
+		print "STATS WILL BE HERE"
 
 
 
 
 	# threading method called when ANT thread is started. 
 	def run(self):
-
-        camera = geometric_transformation.geometric_transformation(0,0,0)
+		camera = geometric_transformation.geometric_transformation(0,0,0)
 
 		# open CSV file 
 		with open(self.camerafilepath, 'r') as cameracsv:
@@ -202,10 +205,11 @@ class ANT(threading.Thread):
         # Out of thread and when all other ANT's have computed a solution update the trail 
 
 def testunit():
+	
 	atomic_ant = ANT("data/camera_rotations", [0,0,0], None, 1, 2)
 	# feasible_moves_creation and feasible_moves_selection() do a complete move()
-	atomic_ant.feasible_moves_creation()
-	atomic_ant.feasible_moves_selection()
+	#atomic_ant.feasible_moves_creation()
+	#atomic_ant.feasible_moves_selection()
 
 	print atomic_ant.move()
 	atomic_ant.move()
