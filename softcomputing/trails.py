@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+# vim: set fileencoding=utf-8 :
 import thread
 
 class trails:
@@ -22,11 +25,11 @@ class trails:
 
         """
 
-	# initialize a 3D matrix with all the moves of previous ANTs 
-	def __init__(s, evaporation_coefficient, pherormone_constant):
+    # initialize a 3D matrix with all the moves of previous ANTs 
+    def __init__(s, evaporation_coefficient, pherormone_constant):
 
         # create ADT for memorize trails 
-		s.trails = dict()
+        s.trails = dict()
 
         # Store evaporation coefficient of the pherormone 
         s.evaporation_coefficient = evaporation_coefficient
@@ -35,26 +38,26 @@ class trails:
         s.pherormone_constant = pherormone_constant 
 
         # create lock variable to handle access to critical sections 
-		s.lock = thread.allocate_lock()
+        s.lock = thread.allocate_lock()
 
 
     def evaporation_action(s):
         """ Decrease globally all the trails """
 
-		# start of critical section 
-		s.lock.acquire()
+        # start of critical section 
+        s.lock.acquire()
 
         for x in trails:
             for y in trails[x]:
                 for z in trails[x][y]:
                     trails[x][y][z] = s.evaporation_coefficient * trails[x][y][z] 
 
-		# end of critical section
-		s.lock.release()
+        # end of critical section
+        s.lock.release()
 
     
-	def update(s, selected_ant_moves):
-		""" Increase trails used by single ANT 
+    def update(s, selected_ant_moves):
+        """ Increase trails used by single ANT 
             
             For every moves the ANT have done increase the trails on that path 
             Trails are increase with value of Q/L . 
@@ -62,49 +65,49 @@ class trails:
 
         for selected_move in selected_ant_moves:
 
-		    x = selected_move[0]
-    		y = selected_move[1]
-    		z = selected_move[2]
+            x = selected_move[0]
+            y = selected_move[1]
+            z = selected_move[2]
 
-		    # start of critical section 
-    		s.lock.acquire()
+            # start of critical section 
+            s.lock.acquire()
 
-    		if not s.trails.has_key(x):
-    			s.trails[x] = dict()
+            if not s.trails.has_key(x):
+                s.trails[x] = dict()
     
-    		if not s.trails[x].has_key(y):
-	    		s.trails[x][y] = dict()
+            if not s.trails[x].has_key(y):
+                s.trails[x][y] = dict()
 
-    		if not s.trails[x][y].has_key(z):
-    			s.trails[x][y][z] = 0
+            if not s.trails[x][y].has_key(z):
+                s.trails[x][y][z] = 0
 
         
-        	length = 
-			s.trails[x][y][z] = s.pherormone_constant / len (selected_ant_moves)
+            length = 
+            s.trails[x][y][z] = s.pherormone_constant / len (selected_ant_moves)
 
-	    	s.lock.release()
-		# end of critical section
+            s.lock.release()
+        # end of critical section
 
 
-	def value(s, selected_move)
-		""" return trails value of a path """
+    def value(s, selected_move)
+        """ return trails value of a path """
 
-		value = 0 
+        value = 0 
 
-		x = selected_move[0]
-		y = selected_move[1]
-		z = selected_move[2]
+        x = selected_move[0]
+        y = selected_move[1]
+        z = selected_move[2]
 
-		s.lock.acquire()
+        s.lock.acquire()
 
-		# start of critical section 
-		if s.trails.has_key(x) and s.trails[x].has_ke(y) and s.trails[x][y].has_key(z):
-			value = s.trails[x][y][z]
+        # start of critical section 
+        if s.trails.has_key(x) and s.trails[x].has_ke(y) and s.trails[x][y].has_key(z):
+            value = s.trails[x][y][z]
 
-		s.lock.release()
-		# end of critical secion 
+        s.lock.release()
+        # end of critical secion 
 
-		return value
+        return value
 
 
 
