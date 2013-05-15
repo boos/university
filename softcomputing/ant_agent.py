@@ -161,31 +161,45 @@ class ANT(threading.Thread):
 
 		return selected_move
 
+    # show stats about current value of the camera error and distance from optimal selection 
+    def stats(self, camera, camera_correction):
+        print "STATS WILL BE HERE"
+
+
+
+
 	# threading method called when ANT thread is started. 
 	def run(self):
 
+        camera = geometric_transformation.geometric_transformation(0,0,0)
+
 		# open CSV file 
-		with open(camerafilepath, 'r') as cameracsv:
+		with open(self.camerafilepath, 'r') as cameracsv:
 			
 			for line in csv.reader(cameracsv, skipinitialspace=True):
 				
 				# skip row with comments or empty
 				if len(row) == 0: continue
-				if row[0][0] == '#': continu
+				if row[0][0] == '#': continue
 
 				# transform text to integers
 				row = map(lambda x: float(x), row)
 
-				move_correction = self.move()
+                # compute fix to errors 
+				camera_correction = self.move()
 
+                # apply fix to error 
+                camera.rotate_X_axis(line[0] + line[1] - camera_correction[0])
+                camera.rotate_Y_axis(line[2] + line[3] - camera_correction[1])
+                camera.rotate_Z_axis(line[4] + line[5] - camera_correction[2])
+                camera.traslate(line[6] + line[7] - camera_correction[3], line[8] + line[9] - camera_correction[4], line[10] + line[11] - camera_correction[5])
 
-		# until the end of csv file
-			# read from csv file 
-			# let's the ant create a move
-			# correct the csv file with ANt move 
+                # show stats about the current value and distance from corrections 
+                self.stats(line, camera_correction)
 
-		# update trails 
-		
+		cameracsv.close()
+
+        # Out of thread and when all other ANT's have computed a solution update the trail 
 
 def testunit():
 	atomic_ant = ANT("data/camera_rotations", [0,0,0], None, 1, 2)
@@ -203,4 +217,5 @@ def testunit():
 
 	print atomic_ant.selected_moves
 
-__init__ = testunit()
+if __name__ == "__main__":
+        testunit()
