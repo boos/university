@@ -57,7 +57,5 @@ def main():
 
 
 
-
-
-
-__init__ = main()
+if __name__ == "__main__":
+    main()

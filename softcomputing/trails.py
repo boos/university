@@ -105,3 +105,13 @@ class trails:
 		# end of critical secion 
 
 		return value
+
+
+
+
+
+
+
+if __name__ == "__main__":
+    testunit()
+

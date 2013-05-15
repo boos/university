@@ -114,4 +114,6 @@ def testunit():
     print rt.rotate_Z_axis(-np.pi/2)
 
 
-# __init__ = testunit()
+if __name__ == "__main__":
+    testunit()
+
