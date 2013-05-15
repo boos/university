@@ -11,11 +11,11 @@ class trails:
         After each iteration t of the algorithm, trails are updated
         using the following formula.
 
-        τ ιψ (t ) = ρτιψ (t − 1) + ∆τ ιψ
+        ÃÂ ÃÂ¹ÃÂ (t ) = ÃÂÃÂÃÂ¹ÃÂ (t Ã¢ÂÂ 1) + Ã¢ÂÂÃÂ ÃÂ¹ÃÂ
 
-        where ρ is a user-defined evaporation coefficient and
-        ∆τιψ represents the sum of the contributions of all ants
-        that used move (ιψ) to construct their solution.
+        where ÃÂ is a user-defined evaporation coefficient and
+        Ã¢ÂÂÃÂÃÂ¹ÃÂ represents the sum of the contributions of all ants
+        that used move (ÃÂ¹ÃÂ) to construct their solution.
 
         As iteration I mean after each set of ANTs have computed a solution.
         So at every algorithms interation first of all decrease all the value on the TRAILS. 
@@ -82,27 +82,28 @@ class trails:
                 s.trails[x][y][z] = 0
 
         
-            length = 
-            s.trails[x][y][z] = s.pherormone_constant / len (selected_ant_moves)
+            length = s.trails[x][y][z] = s.pherormone_constant / len (selected_ant_moves)
 
             s.lock.release()
         # end of critical section
 
 
-    def value(s, selected_move)
+    def value(s, selected_move):
         """ return trails value of a path """
 
         value = 0 
 
-        x = selected_move[0]
-        y = selected_move[1]
-        z = selected_move[2]
+        x = selected_move[0][0]
+        y = selected_move[1][0]
+        z = selected_move[2][0]
 
         s.lock.acquire()
 
         # start of critical section 
-        if s.trails.has_key(x) and s.trails[x].has_ke(y) and s.trails[x][y].has_key(z):
-            value = s.trails[x][y][z]
+        if s.trails.has_key(x):
+            if s.trails[x].has_ke(y):
+                if s.trails[x][y].has_key(z):
+                    value = s.trails[x][y][z]
 
         s.lock.release()
         # end of critical secion 
@@ -116,5 +117,5 @@ class trails:
 
 
 if __name__ == "__main__":
-    testunit()
+      testunit()
 

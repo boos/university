@@ -206,7 +206,7 @@ class ANT(threading.Thread):
 
 def testunit():
 	
-	atomic_ant = ANT("data/camera_rotations", [0,0,0], None, 1, 2)
+	atomic_ant = ANT("data/camera_rotations", (0,0,0), trails.trails(0.3,0.4), 1, 2)
 	# feasible_moves_creation and feasible_moves_selection() do a complete move()
 	#atomic_ant.feasible_moves_creation()
 	#atomic_ant.feasible_moves_selection()
