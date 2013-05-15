@@ -79,7 +79,8 @@ class trails:
     			s.trails[x][y][z] = 0
 
         
-    		s.trails[x][y][z] = s.pherormone_constant / len (selected_ant_moves)
+        	length = 
+			s.trails[x][y][z] = s.pherormone_constant / len (selected_ant_moves)
 
 	    	s.lock.release()
 		# end of critical section
