@@ -110,14 +110,9 @@ class trails:
 
         return value
 
-
-    
 def testunit():
     print 'TEST UNIT'
 
 
-
-
 if __name__ == "__main__":
       testunit()
-

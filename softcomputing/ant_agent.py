@@ -133,10 +133,6 @@ class ANT(threading.Thread):
 
             # compute denominator 
 			denominator += (1 - attractiveness_weight) * a_priory_desiderability + (trails_weight * a_posteriori_desiderability)
-			print "attractiveness_weight:", attractiveness_weight
-			print "1 - attractiveness_weight:", 1 - attractiveness_weight
-
-			print "denominator", denominator
 
         # Then we need to compute numerator and get data in probability 
 		for position in evaluated_position:
@@ -148,7 +144,7 @@ class ANT(threading.Thread):
         	# compute the probability of that move 
 			position_probability = numerator / denominator
 
-			print "position_probability", position_probability
+			print "most_feasible:", most_feasible
 
 			# As choice are created, memorize the best one ! 
 			if most_feasible[3] < position_probability:
