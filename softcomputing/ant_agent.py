@@ -113,9 +113,11 @@ class ANT(threading.Thread):
 
 			# compute the attractivness of that move (a priory move ) 
 			a_priory_desiderability = self.compute_fitness(evaluated_position)
+			print "a_priory_desiderability:", a_priory_desiderability
 			
 			# compute trail level on this particular move ( a posteriori move ) using hints from others ANT's
 			a_posteriori_desiderability = self.trails.value(evaluated_position)
+			print "a_posteriori_desiderability:", a_posteriori_desiderability
 
 			# add to evaluted position every choice with it's respective fitness
 			evaluated_positions.append((evaluated_position, a_priory_desiderability, a_posteriori_desiderability))
@@ -123,14 +125,18 @@ class ANT(threading.Thread):
 		# Compute now in probability how good are the choices 
 
         # First we need the denominator value 
-		for position in evaluated_position:
+		for position in evaluated_positions:
 
 			# for every evaluated position get previous calculated values 
 			a_priory_desiderability = position[1]
 			a_posteriori_desiderability = position[2]
 
             # compute denominator 
-			denominator += (1 - attractiveness_weight) * a_priory_desiderability + trails_weight * a_posteriori_desiderability
+			denominator += (1 - attractiveness_weight) * a_priory_desiderability + (trails_weight * a_posteriori_desiderability)
+			print "attractiveness_weight:", attractiveness_weight
+			print "1 - attractiveness_weight:", 1 - attractiveness_weight
+
+			print "denominator", denominator
 
         # Then we need to compute numerator and get data in probability 
 		for position in evaluated_position:
@@ -142,8 +148,10 @@ class ANT(threading.Thread):
         	# compute the probability of that move 
 			position_probability = numerator / denominator
 
+			print "position_probability", position_probability
+
 			# As choice are created, memorize the best one ! 
-			if most_feasible[4] < position_probability:
+			if most_feasible[3] < position_probability:
 				most_feasible = position + (position_probability)
 
 		# return the best feasible move 
@@ -206,7 +214,7 @@ class ANT(threading.Thread):
 
 def testunit():
 	
-	atomic_ant = ANT("data/camera_rotations", (0,0,0), trails.trails(0.3,0.4), 1, 2)
+	atomic_ant = ANT("data/camera_rotations", (0,0,0), trails.trails(0.3,0.4), 0.1, 0.2)
 	# feasible_moves_creation and feasible_moves_selection() do a complete move()
 	#atomic_ant.feasible_moves_creation()
 	#atomic_ant.feasible_moves_selection()
