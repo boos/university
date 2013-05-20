@@ -32,6 +32,8 @@ class ANT(threading.Thread):
         
             Set also the coefficient weight of trail with respect to attractivness """
 
+		super(ANT, self).__init__()
+
 		# store local CSV file path 
 		self.camerafilepath = camerafilepath
 
@@ -48,6 +50,8 @@ class ANT(threading.Thread):
 		# store locally attr_weight and trail_weight 
 		self.attractiveness_weight = attr_weight
 		self.trails_weight = trails_weight
+
+
 
 
 	def compute_fitness(self, evaluated_position):
@@ -79,6 +83,7 @@ class ANT(threading.Thread):
 
 	def feasible_moves_creation(self):
 		""" compute a set of feasible moves """
+		self.feasible_moves = list()
 		for available_moves in range(1, self.FEASIBLE_MOVES_SIZE):
 			self.feasible_moves.append(self.compute_a_move())
 
@@ -135,7 +140,9 @@ class ANT(threading.Thread):
 			denominator += (1 - attractiveness_weight) * a_priory_desiderability + (trails_weight * a_posteriori_desiderability)
 
         # Then we need to compute numerator and get data in probability 
+		count = 0 
 		for position in evaluated_positions:
+
 			numerator = (1 - attractiveness_weight) * a_priory_desiderability + trails_weight * a_posteriori_desiderability
 
             # NOTE: I've skiped tabu list exclusion to evaluate the probability of a move using it in move creation 
@@ -144,13 +151,15 @@ class ANT(threading.Thread):
         	# compute the probability of that move 
 			position_probability = numerator / denominator
 
-
-			# As choice are created, memorize the best one ! 
+			# As choice are created, memorize the move number of the best one ! 
 			if most_feasible[3] < position_probability:
 				most_feasible = position[0][0][0], position[0][1][0], position[0][2][0], position_probability[0]
+				most_feasible_id = count 
+
+			count = count + 1 
 
 		# return the best feasible move 
-		return most_feasible
+		return self.feasible_moves[most_feasible_id]
 
 	def move(self):
 		""" compute a set of feasible move, chose one of that and finnaly add the move the the current solution 
@@ -170,9 +179,8 @@ class ANT(threading.Thread):
 
     # show stats about current value of the camera error and distance from optimal selection 
 	def stats(self, camera, camera_correction):
-		print "STATS WILL BE HERE"
-
-
+		#print "STATS WILL BE HERE", self.getName()
+		pass
 
 
 	# threading method called when ANT thread is started. 
@@ -185,11 +193,11 @@ class ANT(threading.Thread):
 			for line in csv.reader(cameracsv, skipinitialspace=True):
 				
 				# skip row with comments or empty
-				if len(row) == 0: continue
-				if row[0][0] == '#': continue
+				if len(line) == 0: continue
+				if line[0][0] == '#': continue
 
 				# transform text to integers
-				row = map(lambda x: float(x), row)
+				line = map(lambda x: float(x), line)
 
                 # compute fix to errors 
 				camera_correction = self.move()
@@ -208,22 +216,21 @@ class ANT(threading.Thread):
         # Out of thread and when all other ANT's have computed a solution update the trail 
 
 def testunit():
+
+	atomic_ants = list()
 	
-	atomic_ant = ANT("data/camera_rotations", (0,0,0), trails.trails(0.3,0.4), 0.1, 0.2)
-	# feasible_moves_creation and feasible_moves_selection() do a complete move()
-	#atomic_ant.feasible_moves_creation()
-	#atomic_ant.feasible_moves_selection()
+	for id in range(0,10):
+		atomic_ants.append(ANT("data/camera_rotations", (0,0,0), trails.trails(0.3,0.4), 0.1, 0.2))
+	
+	# starts all ants  
+	for atomic_ant in atomic_ants:
+		atomic_ant.start()
+		print atomic_ant.getName(), " started!"
 
-	print atomic_ant.move()
-	atomic_ant.move()
-	atomic_ant.move()
-	atomic_ant.move()
-	atomic_ant.move()
-	atomic_ant.move()
-	atomic_ant.move()
-
-	for move in atomic_ant.selected_moves:
-		print "selected_moves:", move
+	# wait all ants 
+	for atomic_ant in reversed(atomic_ants):
+		atomic_ant.join()
+		print atomic_ant.getName(), " finished!"
 
 if __name__ == "__main__":
         testunit()
