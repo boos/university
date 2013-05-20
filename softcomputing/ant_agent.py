@@ -135,7 +135,7 @@ class ANT(threading.Thread):
 			denominator += (1 - attractiveness_weight) * a_priory_desiderability + (trails_weight * a_posteriori_desiderability)
 
         # Then we need to compute numerator and get data in probability 
-		for position in evaluated_position:
+		for position in evaluated_positions:
 			numerator = (1 - attractiveness_weight) * a_priory_desiderability + trails_weight * a_posteriori_desiderability
 
             # NOTE: I've skiped tabu list exclusion to evaluate the probability of a move using it in move creation 
