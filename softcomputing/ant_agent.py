@@ -201,6 +201,8 @@ class ANT(threading.Thread):
 
                 # compute fix to errors 
 				camera_correction = self.move()
+				print self.getName() + ": line:", line
+				print self.getName() + ": camera_correction:", camera_correction
 
                 # apply fix to error 
                 camera.rotate_X_axis(line[0] + line[1] - camera_correction[0])
