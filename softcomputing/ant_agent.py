@@ -113,11 +113,11 @@ class ANT(threading.Thread):
 
 			# compute the attractivness of that move (a priory move ) 
 			a_priory_desiderability = self.compute_fitness(evaluated_position)
-			print "a_priory_desiderability:", a_priory_desiderability
+			# print "a_priory_desiderability:", a_priory_desiderability
 			
 			# compute trail level on this particular move ( a posteriori move ) using hints from others ANT's
 			a_posteriori_desiderability = self.trails.value(evaluated_position)
-			print "a_posteriori_desiderability:", a_posteriori_desiderability
+			# print "a_posteriori_desiderability:", a_posteriori_desiderability
 
 			# add to evaluted position every choice with it's respective fitness
 			evaluated_positions.append((evaluated_position, a_priory_desiderability, a_posteriori_desiderability))
@@ -144,11 +144,10 @@ class ANT(threading.Thread):
         	# compute the probability of that move 
 			position_probability = numerator / denominator
 
-			print "most_feasible:", most_feasible
 
 			# As choice are created, memorize the best one ! 
 			if most_feasible[3] < position_probability:
-				most_feasible = position + (position_probability)
+				most_feasible = position[0][0][0], position[0][1][0], position[0][2][0], position_probability[0]
 
 		# return the best feasible move 
 		return most_feasible
@@ -223,7 +222,8 @@ def testunit():
 	atomic_ant.move()
 	atomic_ant.move()
 
-	print atomic_ant.selected_moves
+	for move in atomic_ant.selected_moves:
+		print "selected_moves:", move
 
 if __name__ == "__main__":
         testunit()
