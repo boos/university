@@ -32,6 +32,7 @@ class ANT(threading.Thread):
         
             Set also the coefficient weight of trail with respect to attractivness """
 
+		# initialize thread super class 
 		super(ANT, self).__init__()
 
 		# store local CSV file path 
@@ -221,18 +222,20 @@ def testunit():
 
 	atomic_ants = list()
 	
+	# Create 10 ANT thread 
 	for id in range(0,10):
 		atomic_ants.append(ANT("data/camera_rotations", (0,0,0), trails.trails(0.3,0.4), 0.1, 0.2))
 	
-	# starts all ants  
+	# starts all ants thread 
 	for atomic_ant in atomic_ants:
 		atomic_ant.start()
 		print atomic_ant.getName(), " started!"
 
-	# wait all ants 
+	# wait for the end of all ants thread 
 	for atomic_ant in reversed(atomic_ants):
 		atomic_ant.join()
 		print atomic_ant.getName(), " finished!"
 
+# If you execute that file directly from command line, testunit will be the main function 
 if __name__ == "__main__":
         testunit()
