@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 # vim: set fileencoding=utf-8 :
 
+# TODO: check if calculus is OK.
+
 # import Scientific Pyhon Library and reference it as sp 
 import scipy as sp
 

@@ -1,6 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 # vim: set fileencoding=utf-8 :
+
+# TODO: write testunit and debug 
+
 import threading, csv
 
 import numpy as np
@@ -216,7 +219,7 @@ class ANT(threading.Thread):
 
 		cameracsv.close()
 
-        # Out of thread and when all other ANT's have computed a solution update the trail 
+        # Out of thread. When all other ANTs have computed a solution update the trails
 
 def testunit():
 
@@ -225,7 +228,7 @@ def testunit():
 	# Create 10 ANT thread 
 	for id in range(0,10):
 		atomic_ants.append(ANT("data/camera_rotations", (0,0,0), trails.trails(0.3,0.4), 0.1, 0.2))
-	
+
 	# starts all ants thread 
 	for atomic_ant in atomic_ants:
 		atomic_ant.start()
@@ -235,6 +238,8 @@ def testunit():
 	for atomic_ant in reversed(atomic_ants):
 		atomic_ant.join()
 		print atomic_ant.getName(), " finished!"
+
+	
 
 # If you execute that file directly from command line, testunit will be the main function 
 if __name__ == "__main__":

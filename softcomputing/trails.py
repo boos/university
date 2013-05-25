@@ -37,26 +37,18 @@ class trails:
         # Store of how much every ANT increase pherormone trails when use a path 
         s.pherormone_constant = pherormone_constant 
 
-        # create lock variable to handle access to critical sections 
-        s.lock = thread.allocate_lock()
-
 
     def evaporation_action(s):
         """ Decrease globally all the trails """
-
-        # start of critical section 
-        s.lock.acquire()
 
         for x in trails:
             for y in trails[x]:
                 for z in trails[x][y]:
                     trails[x][y][z] = s.evaporation_coefficient * trails[x][y][z] 
 
-        # end of critical section
-        s.lock.release()
 
     
-    def update(s, selected_ant_moves):
+    def update(s, selected_ant_moves, solution_length):
         """ Increase trails used by single ANT 
             
             For every moves the ANT have done increase the trails on that path 
@@ -69,9 +61,6 @@ class trails:
             y = selected_move[1]
             z = selected_move[2]
 
-            # start of critical section 
-            s.lock.acquire()
-
             if not s.trails.has_key(x):
                 s.trails[x] = dict()
     
@@ -81,11 +70,9 @@ class trails:
             if not s.trails[x][y].has_key(z):
                 s.trails[x][y][z] = 0
 
-        
-            length = s.trails[x][y][z] = s.pherormone_constant / len (selected_ant_moves)
-
-            s.lock.release()
-        # end of critical section
+			# update trails 
+			# TODO: write trails update formula 
+            s.trails[x][y][z] = s.pherormone_constant / solution_length
 
 
     def value(s, selected_move):
@@ -97,21 +84,15 @@ class trails:
         y = selected_move[1][0]
         z = selected_move[2][0]
 
-        s.lock.acquire()
-
-        # start of critical section 
         if s.trails.has_key(x):
             if s.trails[x].has_ke(y):
                 if s.trails[x][y].has_key(z):
                     value = s.trails[x][y][z]
 
-        s.lock.release()
-        # end of critical secion 
-
         return value
 
 def testunit():
-    print 'TEST UNIT'
+    
 
 
 if __name__ == "__main__":
