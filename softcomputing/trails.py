@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 # vim: set fileencoding=utf-8 :
+
 import thread
 
 class trails:
@@ -39,17 +40,24 @@ class trails:
 
 
     def evaporation_action(s):
-        """ Decrease globally all the trails """
+        """ Decrease globally all the trails 
+		
+		After earch iterazion of the algorithm the pherormone evaporate. 
+		This is the method that handled this step. 
+		"""
 
         for x in trails:
             for y in trails[x]:
                 for z in trails[x][y]:
-                    trails[x][y][z] = s.evaporation_coefficient * trails[x][y][z] 
+                    trails[x][y][z] = s.evaporation_coefficient * trails[x][y][z]
 
 
     
     def update(s, selected_ant_moves, solution_length):
         """ Increase trails used by single ANT 
+
+			After earch iteration of the algorithm the pherormone evaporate but the path used by ANTS gets new pherormone.
+			This is the method that handle this step.
             
             For every moves the ANT have done increase the trails on that path 
             Trails are increase with value of Q/L . 
@@ -70,8 +78,7 @@ class trails:
             if not s.trails[x][y].has_key(z):
                 s.trails[x][y][z] = 0
 
-			# update trails 
-			# TODO: write trails update formula 
+			# increase path used by ants 
             s.trails[x][y][z] = s.pherormone_constant / solution_length
 
 
